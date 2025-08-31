@@ -1,0 +1,110 @@
+Got it 👍
+Let’s break this into **two workflows**:
+
+---
+
+# 🔹 1. **Your Workflow (Owner of Repo)**
+
+When you add new files/folders and want to push them to GitHub:
+
+```bash
+# 1. Check repo status (what’s changed)
+git status
+
+# 2. Stage all new/modified files
+git add .
+
+# 3. Commit with a message
+git commit -m "Added new feature / updated files"
+
+# 4. Pull the latest changes from GitHub before pushing 
+# (prevents conflicts if collaborators have updated)
+git pull origin main
+
+# 5. Push your changes
+git push origin main
+```
+
+---
+
+# 🔹 2. **Workflow for Contributors (Team Members)**
+
+## Step A: Fork + Clone
+
+1. Go to your repo on GitHub → click **Fork**.
+
+2. Clone their forked repo:
+
+   ```bash
+   git clone https://github.com/username/Real_Estate_Website.git
+   cd Real_Estate_Website
+   ```
+
+3. Add **upstream remote** (so they can sync with your original repo):
+
+   ```bash
+   git remote add upstream https://github.com/Aniket-The-TechWhiz/Real_Estate_Website.git
+   ```
+
+---
+
+## Step B: Create a Branch (before making changes)
+
+```bash
+git checkout -b feature-branch-name
+```
+
+---
+
+## Step C: Make Changes & Push to Fork
+
+```bash
+# Stage changes
+git add .
+
+# Commit changes
+git commit -m "Implemented new feature / fixed bug"
+
+# Push to their fork
+git push origin feature-branch-name
+```
+
+---
+
+## Step D: Open Pull Request (PR)
+
+1. Go to **their forked repo** on GitHub.
+2. Click **Compare & pull request**.
+3. Submit PR to **your main repo** (`main` branch).
+
+---
+
+# 🔹 3. **Keeping Fork in Sync (Very Important for Contributors)**
+
+When you update your main repo, team members need to sync their fork:
+
+```bash
+# Fetch changes from upstream
+git fetch upstream
+
+# Switch to main branch
+git checkout main
+
+# Merge upstream changes into local main
+git merge upstream/main
+
+# Push updated main to their fork
+git push origin main
+```
+
+---
+
+✅ **Summary (Chronological Order)**
+
+* **You (Owner):** `git add . → git commit -m "msg" → git pull origin main → git push origin main`
+* **Contributors:** Fork → Clone → `git checkout -b new-branch` → `git add . → git commit → git push origin branch` → Open Pull Request.
+* **Syncing fork:** `git fetch upstream → git merge upstream/main → git push origin main`.
+
+---
+
+Do you also want me to give you a **ready-to-paste CONTRIBUTING.md** file (guidelines for your teammates with all these commands) so it’s clear when they join?

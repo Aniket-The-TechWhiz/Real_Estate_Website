@@ -1,0 +1,95 @@
+Frontend Development Guide for a Real Estate Website
+This document outlines the core components and a recommended workflow for building a professional, single-owner real estate website using the specified technology stack: Next.js, React, and Tailwind CSS.
+1. Project Setup
+This section provides the commands to create a new Next.js project with Tailwind CSS.
+1.	Create a Next.js App: Open your terminal and run the following command. The flags will set up the project with TypeScript and the modern App Router.
+2.	npx create-next-app@latest my-real-estate-app --typescript --eslint --app
+
+3.	Install Tailwind CSS: Navigate into your new project directory and install Tailwind and its dependencies.
+4.	cd my-real-estate-app
+5.	npm install tailwindcss @tailwindcss/postcss postcss
+6.	npx tailwindcss init
+
+7.	Configure Tailwind: Open tailwind.config.js and configure it to scan your component and page files for class names.
+8.	/** @type {import('tailwindcss').Config} */
+9.	module.exports = {
+10.	  content: [
+11.	    "./app/**/*.{js,ts,jsx,tsx}",
+12.	    "./components/**/*.{js,ts,jsx,tsx}",
+13.	  ],
+14.	  theme: {
+15.	    extend: {},
+16.	  },
+17.	  plugins: [],
+18.	};
+
+19.	Add Tailwind Directives: In your global CSS file, typically found at app/globals.css, add the following directives to include Tailwind's base styles.
+20.	@tailwind base;
+21.	@tailwind components;
+22.	@tailwind utilities;
+
+23.	Start the Development Server: Run npm run dev to start the local server and verify that everything is working.
+2. Recommended File Structure
+A clean project structure is key for an organized codebase. We recommend the following high-level structure:
+/my-real-estate-app
+├── /app/
+│   ├── /properties/
+│   │   ├── [id]/
+│   │   │   └── page.tsx      # Dynamic route for a single property
+│   │   └── page.tsx          # Main page to list all properties
+│   ├── layout.tsx            # Global layout (header, footer)
+│   ├── globals.css           # Tailwind CSS directives
+│   └── page.tsx              # Home page content
+├── /components/
+│   ├── /ui/                  # Reusable UI components (buttons, cards)
+│   ├── PropertyCard.tsx      # A component to display a single property
+│   ├── MapComponent.tsx      # Component for Google Maps/Mapbox
+│   ├── ContactFormModal.tsx  # The pop-up form component
+│   └── Header.tsx
+└── /data/                    # Mock data for frontend development
+    ├── mock-properties.json  # A JSON file with sample property data
+    └── mock-property.json    # A JSON file with a single property's detailed data
+
+3. Core Frontend Features
+Property Listings Page
+•	Goal: Display a grid or list of all properties.
+•	Implementation:
+o	Create app/properties/page.tsx.
+o	For a frontend-only project, import and use the mock data from mock-properties.json to populate the list.
+o	Map through the array of properties and render a PropertyCard component for each one.
+o	Use Tailwind's grid utilities (e.g., grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3) to make the layout responsive.
+Property Detail Pages
+•	Goal: Create a dedicated page for each property with detailed information.
+•	Implementation:
+o	Create a dynamic route at app/properties/[id]/page.tsx.
+o	The id from the URL will be available in the params object of the page component.
+o	Use this id to find the corresponding property data from your mock data (mock-property.json).
+o	From this data, you can make further API calls to the ATTOM Property API (using the property's address) to get enriched data like tax history and neighborhood info.
+o	Render the property details, a gallery of images, and a MapComponent to show its location.
+Interactive Maps
+•	Goal: Visually display properties on a map.
+•	Implementation:
+o	Use a dedicated MapComponent.tsx to handle the map logic.
+o	You'll need to load the Google Maps or Mapbox API script in your layout.tsx or a custom script file.
+o	Pass an array of property locations (latitude and longitude) to your MapComponent as a prop.
+o	The component will iterate through the locations and place a marker on the map for each property.
+Search and Filtering
+•	Goal: Allow users to filter properties based on criteria like price range, number of bedrooms, etc.
+•	Implementation:
+o	Build a filter UI as a client component (with 'use client' directive).
+o	Instead of storing the filter state in a local useState hook, use the URL's search parameters. This makes the search results shareable and SEO-friendly.
+o	Use next/navigation hooks like useSearchParams to read the current filters and useRouter to update the URL when a filter changes.
+User Interaction Forms (Pop-ups)
+•	Goal: Display a pop-up form asking for contact details on the user's first interaction with any key component or feature on the website.
+•	Implementation:
+o	Create a reusable ContactFormModal.tsx component that uses a client directive ('use client'). This component will contain the form fields for name, email, and phone number, and a submit button.
+o	In your root layout.tsx, wrap the children with a component that listens for user interaction (e.g., a simple div with an onClick handler).
+o	Use a useState hook or localStorage to track if the user has already submitted their contact details. On the first click, set the state to true to display the modal.
+o	The modal should be conditionally rendered based on this state.
+o	The form inside the modal should handle its own state and submission logic. The modal should close upon successful form submission.
+o	The modal's background should be a semi-transparent overlay that closes the modal when a user clicks outside the form or on a designated close button.
+4. Styling with Tailwind CSS
+•	Responsive Design: Use Tailwind's mobile-first approach with responsive prefixes (sm:, lg:) for every component to ensure your site looks great on all devices.
+•	Reusable Components: Extract common UI patterns (e.g., buttons, input fields, cards) into their own components to avoid repeating large blocks of Tailwind classes.
+•	Customization: If you need a specific brand color or font, extend the tailwind.config.js file instead of writing new CSS.
+

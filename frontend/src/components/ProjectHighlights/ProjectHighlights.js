@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectHighlights.css';
+import { fetchProperties } from '../../api.js'; // Import the function
 
 const ProjectHighlights = () => {
   const [properties, setProperties] = useState([]);
@@ -8,13 +9,9 @@ const ProjectHighlights = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProperties = async () => {
+    const getProperties = async () => {
       try {
-        const response = await fetch('/api/properties');
-        if (!response.ok) {
-          throw new Error('Failed to fetch properties');
-        }
-        const data = await response.json();
+        const data = await fetchProperties(); // Use the imported function
         setProperties(data);
       } catch (err) {
         setError(err.message);
@@ -23,7 +20,7 @@ const ProjectHighlights = () => {
       }
     };
 
-    fetchProperties();
+    getProperties();
   }, []);
 
   if (loading) {

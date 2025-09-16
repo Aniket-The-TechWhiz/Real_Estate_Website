@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectHighlights.css';
-import { fetchProperties } from '../../api.js'; // Import the function
+import { fetchProperties } from '../../utils/api.js';
 
 const ProjectHighlights = () => {
   const [properties, setProperties] = useState([]);
@@ -11,7 +11,7 @@ const ProjectHighlights = () => {
   useEffect(() => {
     const getProperties = async () => {
       try {
-        const data = await fetchProperties(); // Use the imported function
+        const data = await fetchProperties();
         setProperties(data);
       } catch (err) {
         setError(err.message);

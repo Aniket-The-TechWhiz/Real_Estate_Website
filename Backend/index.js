@@ -13,14 +13,16 @@ const app = express();
 
 // Middleware - Configure CORS properly
 const allowedOrigins = [
-  "http://localhost:3000", // For local development
-  "https://real-estate-website-l8vaep6vk-anis-projects-7490c38e.vercel.app" // Your Vercel frontend URL
+  'http://localhost:3000', // For local development
+  'https://real-estate-website-git-main-anis-projects-7490c38e.vercel.app' // Your Vercel frontend domain
 ];
 
-app.use(cors({
+const corsOptions = {
   origin: allowedOrigins,
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

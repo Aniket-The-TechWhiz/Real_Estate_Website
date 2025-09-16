@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectHighlights.css';
-import { fetchProperties } from '../../utils/api/api';
+import { fetchProperties } from '../../utils/api';
 
 const ProjectHighlights = () => {
   const [properties, setProperties] = useState([]);

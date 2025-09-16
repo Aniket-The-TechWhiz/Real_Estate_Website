@@ -7,16 +7,22 @@ import connectDB from "./utils/db.js";
 import propertyRoutes from "./routes/propertyRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
 
-dotenv.config(); // Load .env file
+dotenv.config();
 
 const app = express();
 
 // Middleware - Configure CORS properly
+const allowedOrigins = [
+  "http://localhost:3000", // For local development
+  "https://real-estate-website-l8vaep6vk-anis-projects-7490c38e.vercel.app" // Your Vercel frontend URL
+];
+
 app.use(cors({
-  origin: "http://localhost:3000", // Your React app's URL
+  origin: allowedOrigins,
   credentials: true
 }));
-app.use(express.json()); // Parse JSON bodies
+
+app.use(express.json());
 
 // Database connection
 connectDB();
